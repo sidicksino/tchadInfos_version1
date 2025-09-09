@@ -12,15 +12,15 @@ const coffeeTheme = {
 };
 
 const forestTheme = {
-  primary: "#E00606",
-  background: "#E8F5E9",
+  primary: "#FF3B30",
+  background: "#FFFFFF",
   text: "#0033A0",
   border: "#C8E6C9",
   white: "#FFFFFF",
   textLight: "#66BB6A",
   expense: "#C62828",
   income: "#388E3C",
-  card: "#FFFFFF",
+  card: "#E8F5E9",
   shadow: "#000000",
 };
 

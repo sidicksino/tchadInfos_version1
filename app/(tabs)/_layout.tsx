@@ -1,91 +1,153 @@
 import SafeScreen from "@/components/SafeScreen";
 import { ThemeContext } from "@/context/ThemeContext";
 import { Ionicons } from "@expo/vector-icons";
+import EvilIcons from '@expo/vector-icons/EvilIcons';
 import Feather from "@expo/vector-icons/Feather";
 import { Tabs } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import React, { useContext } from "react";
-import { View } from "react-native";
-
-
+import { StyleSheet, View } from "react-native";
 
 const TabsLayout = () => {
   const { COLORS, isDarkMode } = useContext(ThemeContext);
+
   return (
     <SafeScreen>
-      <StatusBar
-        style={isDarkMode ? "light" : "dark"}
-      />
+      <StatusBar style={isDarkMode ? "light" : "dark"} />
       <Tabs
         screenOptions={{
           headerShown: false,
-          tabBarActiveTintColor: COLORS.income,
+          // tabBarActiveTintColor: COLORS.primary,
           tabBarInactiveTintColor: COLORS.text,
           tabBarStyle: {
+            backgroundColor: COLORS.background,
+            borderColor: COLORS.text,
             borderTopLeftRadius: 20,
             borderTopRightRadius: 20,
-            backgroundColor: COLORS.card,
-            borderTopWidth: 0,
+            borderTopWidth: 1,
+            borderEndWidth: 1,
+            borderStartWidth: 1,
             position: "absolute",
             left: 0,
             right: 0,
-            height: 70,
+            height: 83, // hauteur de ton design
             paddingBottom: 10,
             paddingTop: 10,
             justifyContent: "center",
             alignItems: "center",
           },
           tabBarLabelStyle: {
-            padding: 4,
+            padding: 0,
             fontSize: 13,
             fontWeight: "300",
+            textTransform: "capitalize",
+            fontFamily: "Poppins_400Regular",
+            letterSpacing: 0.5,
+            textAlignVertical: "center",
+            top: 10,
+            left: 2,
           },
         }}
       >
+        {/* Home */}
         <Tabs.Screen
           name="index"
           options={{
             title: "Home",
-            tabBarIcon: ({ color }) => (
-              <Feather name="home" size={30} color={color} />
-            ),
-          }}
-        />
-        <Tabs.Screen
-          name="video"
-          options={{
-            title: "video",
-            tabBarIcon: ({ color }) => (
-              <Ionicons name="list-circle-outline" size={30} color={color} />
-            ),
-          }}
-        />
-        <Tabs.Screen
-          name="live"
-          options={{
-            title: "Live",
-            tabBarIcon: ({ color }) => (
-              <View style={{ position: "relative" }}>
-                <Ionicons name="cart-outline" size={30} color={color} />
+            tabBarIcon: ({ color, focused }) => (
+              <View
+                style={[
+                  styles.iconWrapper,
+                  {
+                    backgroundColor: focused
+                      ? COLORS.text + "22"
+                      : "transparent",
+                  },
+                ]}
+              >
+                <Feather name="home" size={30} color={color} />
               </View>
             ),
           }}
         />
+
+        {/* Video */}
+        <Tabs.Screen
+          name="video"
+          options={{
+            title: "Video",
+            tabBarIcon: ({ color, focused }) => (
+              <View
+                style={[
+                  styles.iconWrapper,
+                  {
+                    backgroundColor: focused
+                      ? COLORS.text + "22"
+                      : "transparent",
+                  },
+                ]}
+              >
+                <EvilIcons name="play" size={40} color={color} />
+              </View>
+            ),
+          }}
+        />
+
+        <Tabs.Screen
+          name="live"
+          options={{
+            tabBarLabel: () => null, // supprime le titre
+            tabBarIcon: ({ color, focused }) => (
+              <View
+                style={
+                  [styles.iconWrapperLive, { backgroundColor: "#FF3B30"}]}
+              >
+               <Feather name="radio" size={35} color="white" />
+              </View>
+            ),
+          }}
+        />
+
+        {/* Favorites */}
         <Tabs.Screen
           name="favorite"
           options={{
             title: "Favorites",
-            tabBarIcon: ({ color }) => (
-              <Ionicons name="heart-outline" size={30} color={color} />
+            tabBarIcon: ({ color, focused }) => (
+              <View
+                style={[
+                  styles.iconWrapper,
+                  {
+                    backgroundColor: focused
+                      ? COLORS.text + "22"
+                      : "transparent",
+                  },
+                ]}
+              >
+                <Ionicons name="bookmark-outline"  size={30} color={color} />
+              </View>
             ),
           }}
         />
+
+        {/* Profile */}
         <Tabs.Screen
           name="profile"
           options={{
             title: "Profile",
-            tabBarIcon: ({ color }) => (
-              <Ionicons name="person-outline" size={30} color={color} />
+            tabBarIcon: ({ color, focused }) => (
+              <View
+                style={[
+                  styles.iconWrapper,
+                  {
+                    backgroundColor: focused
+                      ? COLORS.text + "22"
+                      : "transparent",
+                  },
+                ]}
+              >
+                <Ionicons name="person-outline" size={30} color={color} />
+              </View>
             ),
           }}
         />
@@ -95,3 +157,21 @@ const TabsLayout = () => {
 };
 
 export default TabsLayout;
+
+const styles = StyleSheet.create({
+  iconWrapper: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  iconWrapperLive: {
+    width: 65,
+    height: 65,
+    borderRadius: 50,
+    justifyContent: "center",
+    alignItems: "center",
+    top: 10
+  },
+});

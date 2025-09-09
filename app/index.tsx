@@ -20,11 +20,11 @@ const { width } = Dimensions.get("window");
 
 interface Page {
   id: string;
-  image?: any; // pour page 1
-  logo?: any; // pour page 1
-  background_image?: any; // pour pages 2 et 3
+  image?: any;
+  logo?: any;
+  background_image?: any;
   title: string;
-  content?: string; // pour pages 2 et 3
+  content?: string;
   buttonText: string;
 }
 
