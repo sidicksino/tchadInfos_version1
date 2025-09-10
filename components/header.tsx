@@ -1,8 +1,8 @@
-import AntDesign from "@expo/vector-icons/AntDesign";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useRouter } from "expo-router"; // si tu utilises expo-router
 import React, { useContext } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
+import Menu from "../assets/images/menu.svg";
 import Logo from "../assets/logo.svg";
 import { getStyles } from "../assets/styles/header.Style";
 import { ThemeContext } from "../context/ThemeContext";
@@ -15,7 +15,7 @@ const Header = () => {
     <View style={styles.header}>
       {/* Ligne 1 : logo + notif */}
       <View style={styles.headerTop}>
-        <Logo style={styles.logo} fill={COLORS.text}/>
+        <Logo style={styles.logo} fill={COLORS.text} />
         <TouchableOpacity
           onPress={() => console.log(" Notifications")}
           accessible
@@ -43,14 +43,10 @@ const Header = () => {
             size={20}
             style={styles.reseachIcon}
           />
-        </TouchableOpacity>
+        </TouchableOpacity >
 
-        <TouchableOpacity>
-          <AntDesign
-            name="menufold"
-            size={20}
-            style={styles.profile}
-          />
+        <TouchableOpacity style={styles.profile}>
+          <Menu fill={COLORS.primary}/>
         </TouchableOpacity>
       </View>
     </View>

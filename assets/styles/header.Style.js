@@ -24,7 +24,6 @@ export const getStyles = (COLORS) =>
             width: 200,
             height: 33,
             resizeMode: "contain",
-            color: COLORS.text + "90",
         },
         notification: {
             backgroundColor: COLORS.text + "80",
@@ -54,15 +53,14 @@ export const getStyles = (COLORS) =>
         },
         profile: {
             marginLeft: 8,
-            paddingHorizontal: 15,
-            paddingVertical: 12,
+            paddingHorizontal: 10,
+            paddingVertical: 8,
             borderRadius: 8,
             resizeMode: "cover",
             backgroundColor: COLORS.text + "10",
             borderWidth: 1,
             borderColor: COLORS.text + "20",
             color: COLORS.text + "90",
-            
         },
         reseachText:{
             color: "#A5ABB9",

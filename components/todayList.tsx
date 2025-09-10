@@ -1,16 +1,51 @@
-import React from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import React, { useState } from "react";
+import {
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View
+} from "react-native";
+import Animated, {
+  useAnimatedRef,
+  useSharedValue
+} from "react-native-reanimated";
+import { NewsDataType } from "../types";
+import TodayItem from "./todayItem";
 
-type Props = {};
+type Props = {
+  newsList: Array<NewsDataType>;
+};
 
-const todayList = (props: Props) => {
+const todayList = ({ newsList }: Props) => {
+  const [data, setData] = useState(newsList);
+  const [paginationIndex, setPaginationIndex] = useState(0);
+  const scrollX = useSharedValue(0);
+  const ref = useAnimatedRef<Animated.FlatList<any>>();
+
+
   return (
     <View style={styles.container}>
       <View style={styles.todayTextContent}>
         <Text style={styles.todayText}>Aujourd’hui</Text>
         <TouchableOpacity style={styles.todayButton}>
-            <Text style={styles.todayButtonText}>Plus</Text>
+          <Text style={styles.todayButtonText}>Plus</Text>
         </TouchableOpacity>
+      </View>
+      <View style={styles.slideWrapper}>
+        <Animated.FlatList
+          ref={ref}
+          data={data}
+          keyExtractor={(_, index) => `list_item${index}`}
+          renderItem={({ item, index }) => (
+            <TodayItem slideItem={item} index={index} />
+          )}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          pagingEnabled
+          scrollEventThrottle={16}
+          onEndReachedThreshold={0.5}
+          onEndReached={() => setData([...data, ...newsList])}
+        />
       </View>
     </View>
   );
@@ -22,19 +57,19 @@ const styles = StyleSheet.create({
   container: {
     marginBottom: 20,
   },
-  todayTextContent:{
+  todayTextContent: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
     marginHorizontal: 20,
     marginBottom: 10,
-    alignContent: "center"
+    alignContent: "center",
   },
-  todayText:{
+  todayText: {
     fontSize: 18,
-    fontFamily: "Epilogue_500Medium"
+    fontFamily: "Epilogue_500Medium",
   },
-  todayButton:{
+  todayButton: {
     paddingVertical: 6,
     paddingHorizontal: 20,
     borderRadius: 100,
@@ -42,9 +77,14 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#FF3B30",
   },
-  todayButtonText:{
+  todayButtonText: {
     color: "#FF3B30",
     fontSize: 11,
-    fontFamily: "Epilogue_500Medium"
-  }
+    fontFamily: "Epilogue_500Medium",
+  },
+  slideWrapper: {
+    //width: "100%",
+    justifyContent: "center",
+    //flex: 1,
+  },
 });

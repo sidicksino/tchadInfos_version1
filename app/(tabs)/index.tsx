@@ -16,33 +16,38 @@ const index = () => {
 
   const getBreakingNews = async () => {
     try {
-      const URL = `https://newsdata.io/api/1/latest?apikey=${process.env.EXPO_PUBLIC_API_KEY}&language=fr&country=td&image=1&removeduplicate=1&size=5`
-      const response = await axios.get(URL)
+      const URL = `https://newsdata.io/api/1/latest?apikey=${process.env.EXPO_PUBLIC_API_KEY}&language=fr&country=td&image=1&removeduplicate=1&size=5`;
+      const response = await axios.get(URL);
       if (response && response.data) {
         setBreakingNews(response.data.results);
         setIsLoading(false);
       }
     } catch (err: any) {
-      console.error('Error fetching breaking news:', err.message);
+      console.error("Error fetching breaking news:", err.message);
     }
-  }
+  };
 
   useEffect(() => {
     getBreakingNews();
   }, []);
 
-
   return (
     <View style={styles.container}>
-      <Header/>
+      <Header />
       {isLoading ? (
-        <ActivityIndicator size="large" color={COLORS.primary} style={{ marginTop: 20 }} />
+        <ActivityIndicator
+          size="large"
+          color={COLORS.primary}
+          style={{ marginTop: 20 }}
+        />
       ) : (
-      <BreakingNews newsList={breakingNews} />
+        <>
+          <BreakingNews newsList={breakingNews} />
+          <TodayList newsList={breakingNews} />
+        </>
       )}
-      <TodayList />
     </View>
-  )
-}
+  );
+};
 
-export default index
+export default index;
