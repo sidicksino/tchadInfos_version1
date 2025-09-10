@@ -1,22 +1,33 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { SharedValue } from 'react-native-reanimated';
-import { NewsDataType } from '../types';
+import React, { useContext } from "react";
+import { View } from "react-native";
+import Animated, { SharedValue } from "react-native-reanimated";
+import { getStyles } from "../assets/styles/pagination.Style";
+import { ThemeContext } from "../context/ThemeContext";
+import { NewsDataType } from "../types";
 
 type Props = {
-    items: NewsDataType[];
-    paginationIndex: number;
-    scrollX: SharedValue<number>;
-}
+  items: NewsDataType[];
+  paginationIndex: number;
+  scrollX: SharedValue<number>;
+};
 
-const pagination = ({ items, paginationIndex, scrollX}: Props) => {
+const pagination = ({ items, paginationIndex, scrollX }: Props) => {
+  const { COLORS } = useContext(ThemeContext);
+  const styles = getStyles(COLORS);
+
   return (
-    <View>
-      <Text>pagination</Text>
+    <View style={styles.container}>
+      {items.map((_, index) => (
+        <Animated.View
+          style={[
+            styles.dot,
+            { backgroundColor: paginationIndex === index ? "red" : "#595959" },
+          ]}
+          key={index}
+        />
+      ))}
     </View>
-  )
-}
+  );
+};
 
-export default pagination
-
-const styles = StyleSheet.create({})
+export default pagination;

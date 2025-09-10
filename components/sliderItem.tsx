@@ -1,12 +1,14 @@
 import { LinearGradient } from "expo-linear-gradient";
-import React from "react";
-import { Dimensions, Image, StyleSheet, Text, View } from "react-native";
+import React, { useContext } from "react";
+import { Dimensions, Image, Text, View } from "react-native";
 import Animated, {
   Extrapolation,
   SharedValue,
   interpolate,
   useAnimatedStyle,
 } from "react-native-reanimated";
+import { getStyles } from "../assets/styles/sliderItem.Style";
+import { ThemeContext } from "../context/ThemeContext";
 import { NewsDataType } from "../types";
 
 type Props = {
@@ -18,6 +20,9 @@ type Props = {
 const { width } = Dimensions.get("screen");
 
 const sliderItem = ({ slideItem, index, scrollX }: Props) => {
+  const { COLORS } = useContext(ThemeContext);
+  const styles = getStyles(COLORS);
+  
   const rnStyle = useAnimatedStyle(() => {
     return {
       transform: [
@@ -51,7 +56,7 @@ const sliderItem = ({ slideItem, index, scrollX }: Props) => {
         <View style={styles.sourceInfos}>
           <Text style={styles.sourceName}>{slideItem.source_name}</Text>
         </View>
-        <Text style={styles.title} numberOfLines={2}>
+        <Text style={styles.title} numberOfLines={3}>
           {slideItem.title}
         </Text>
       </LinearGradient>
@@ -60,45 +65,3 @@ const sliderItem = ({ slideItem, index, scrollX }: Props) => {
 };
 
 export default sliderItem;
-
-const styles = StyleSheet.create({
-  itemWrapper: {
-    position: "relative",
-    width: width,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  image: {
-    width: width - 60,
-    height: 180,
-    borderRadius: 20,
-  },
-  backround: {
-    position: "absolute",
-    left: 30,
-    right: 0,
-    top: 0,
-    width: width - 60,
-    height: 180,
-    borderRadius: 20,
-    padding: 20,
-  },
-  sourceInfos: {
-    position: "absolute",
-    top: 85,
-    paddingHorizontal: 20,
-  },
-  sourceName: {
-    color: "#fff",
-    fontSize: 12,
-    fontWeight: "600",
-  },
-  title: {
-    color: "#fff",
-    fontSize: 16,
-    position: "absolute",
-    top: 120,
-    fontWeight: "600",
-    paddingHorizontal: 20,
-  },
-});

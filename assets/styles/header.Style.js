@@ -5,7 +5,7 @@ export const getStyles = (COLORS) =>
         header: {
             backgroundColor: COLORS.background,
             paddingHorizontal: 10,
-            paddingTop: 10,
+            paddingTop: 5,
             marginBottom: 20,
         },
         headerTop: {
@@ -26,7 +26,7 @@ export const getStyles = (COLORS) =>
             resizeMode: "contain",
         },
         notification: {
-            backgroundColor: COLORS.text + "80", // Transparence
+            backgroundColor: COLORS.text + "80",
             padding: 10,
             borderRadius: 30,
         },
@@ -39,7 +39,7 @@ export const getStyles = (COLORS) =>
             borderRadius: 12,
             paddingHorizontal: 15,
             paddingVertical: 12,
-            marginRight: 10,
+            marginRight: 0,
             borderWidth: 1,
             borderColor: COLORS.text + "20",
         },

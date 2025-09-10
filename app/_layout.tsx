@@ -22,7 +22,6 @@ import {
   useFonts as useTangerineFonts,
 } from "@expo-google-fonts/tangerine";
 
-// ---------------------------
 // Objet central pour toutes les polices
 export const FONTS = {
   Epilogue_Regular: "Epilogue_400Regular",
@@ -33,7 +32,6 @@ export const FONTS = {
   Tangerine_Bold: "Tangerine_700Bold",
 };
 
-// ---------------------------
 export default function RootLayout() {
   // Charger toutes les polices
   const [epilogueLoaded] = useEpilogueFonts({

@@ -6,6 +6,7 @@ import BreakingNews from "../../components/breakingNwes";
 import Header from "../../components/header";
 import { ThemeContext } from "../../context/ThemeContext";
 import { NewsDataType } from "../../types/index";
+
 const index = () => {
   const { COLORS } = useContext(ThemeContext);
   const styles = getStyles(COLORS);
