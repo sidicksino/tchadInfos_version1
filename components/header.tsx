@@ -2,10 +2,10 @@ import AntDesign from "@expo/vector-icons/AntDesign";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useRouter } from "expo-router"; // si tu utilises expo-router
 import React, { useContext } from "react";
-import { Image, Text, TouchableOpacity, View } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
+import Logo from "../assets/logo.svg";
 import { getStyles } from "../assets/styles/header.Style";
 import { ThemeContext } from "../context/ThemeContext";
-
 const Header = () => {
   const { COLORS } = useContext(ThemeContext);
   const styles = getStyles(COLORS);
@@ -15,10 +15,7 @@ const Header = () => {
     <View style={styles.header}>
       {/* Ligne 1 : logo + notif */}
       <View style={styles.headerTop}>
-        <Image
-          source={require("../assets/images/ti_log1.png")}
-          style={styles.logo}
-        />
+        <Logo style={styles.logo} fill={COLORS.text}/>
         <TouchableOpacity
           onPress={() => console.log(" Notifications")}
           accessible

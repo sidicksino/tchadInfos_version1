@@ -4,6 +4,7 @@ import { ActivityIndicator, View } from "react-native";
 import { getStyles } from "../../assets/styles/home.Style";
 import BreakingNews from "../../components/breakingNwes";
 import Header from "../../components/header";
+import TodayList from "../../components/todayList";
 import { ThemeContext } from "../../context/ThemeContext";
 import { NewsDataType } from "../../types/index";
 
@@ -39,6 +40,7 @@ const index = () => {
       ) : (
       <BreakingNews newsList={breakingNews} />
       )}
+      <TodayList />
     </View>
   )
 }

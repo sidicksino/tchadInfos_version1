@@ -76,7 +76,7 @@ export default BreakingNews;
 
 const styles = StyleSheet.create({
   container: {
-    marginBottom: 20,
+    marginBottom: 0,
   },
   slideWrapper: {
     //width: "100%",

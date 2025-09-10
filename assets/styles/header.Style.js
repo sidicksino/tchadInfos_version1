@@ -24,6 +24,7 @@ export const getStyles = (COLORS) =>
             width: 200,
             height: 33,
             resizeMode: "contain",
+            color: COLORS.text + "90",
         },
         notification: {
             backgroundColor: COLORS.text + "80",
