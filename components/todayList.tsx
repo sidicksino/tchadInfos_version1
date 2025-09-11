@@ -16,7 +16,7 @@ type Props = {
   newsList: Array<NewsDataType>;
 };
 
-const todayList = ({ newsList }: Props) => {
+const TodayList = ({ newsList }: Props) => {
   const [data, setData] = useState(newsList);
   const [paginationIndex, setPaginationIndex] = useState(0);
   const scrollX = useSharedValue(0);
@@ -51,7 +51,7 @@ const todayList = ({ newsList }: Props) => {
   );
 };
 
-export default todayList;
+export default TodayList;
 
 const styles = StyleSheet.create({
   container: {
@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginHorizontal: 20,
+    marginHorizontal: 10,
     marginBottom: 10,
     alignContent: "center",
   },

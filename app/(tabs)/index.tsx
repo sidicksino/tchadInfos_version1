@@ -1,10 +1,12 @@
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
-import { ActivityIndicator, View } from "react-native";
+import { ScrollView, View } from "react-native";
 import { getStyles } from "../../assets/styles/home.Style";
 import BreakingNews from "../../components/breakingNwes";
 import Categories from "../../components/categories";
 import Header from "../../components/header";
+import Loading from "../../components/loading";
+import News from "../../components/news";
 import TodayList from "../../components/todayList";
 import { ThemeContext } from "../../context/ThemeContext";
 import { NewsDataType } from "../../types/index";
@@ -28,9 +30,9 @@ const index = () => {
     }
   };
 
-  const onCatChanged = (category : string) => {
+  const onCatChanged = (category: string) => {
     console.log("Categories", category);
-  }
+  };
 
   useEffect(() => {
     getBreakingNews();
@@ -39,19 +41,18 @@ const index = () => {
   return (
     <View style={styles.container}>
       <Header />
-      {isLoading ? (
-        <ActivityIndicator
-          size="large"
-          color={COLORS.primary}
-          style={{ marginTop: 20 }}
-        />
-      ) : (
-        <>
-          <BreakingNews newsList={breakingNews} />
-          <TodayList newsList={breakingNews} />
-        </>
-      )}
-      <Categories onCategoryChanged={onCatChanged} />
+      <ScrollView>
+        {isLoading ? (
+          <Loading size={"large"}/>
+        ) : (
+          <>
+            <BreakingNews newsList={breakingNews} />
+            <TodayList newsList={breakingNews} />
+          </>
+        )}
+        <Categories onCategoryChanged={onCatChanged} />
+        <News newsList={breakingNews} />
+      </ScrollView>
     </View>
   );
 };

@@ -14,7 +14,7 @@ type Props = {
 
 const { width } = Dimensions.get("screen");
 
-const todayItem = ({ slideItem, index}: Props) => {
+const TodayItem = ({ slideItem, index}: Props) => {
   const { COLORS } = useContext(ThemeContext);
   const styles = getStyles(COLORS);
 
@@ -30,4 +30,4 @@ const todayItem = ({ slideItem, index}: Props) => {
   );
 };
 
-export default todayItem;
+export default TodayItem;

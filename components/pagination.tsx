@@ -11,7 +11,7 @@ type Props = {
   scrollX: SharedValue<number>;
 };
 
-const pagination = ({ items, paginationIndex, scrollX }: Props) => {
+const Pagination = ({ items, paginationIndex, scrollX }: Props) => {
   const { COLORS } = useContext(ThemeContext);
   const styles = getStyles(COLORS);
 
@@ -30,4 +30,4 @@ const pagination = ({ items, paginationIndex, scrollX }: Props) => {
   );
 };
 
-export default pagination;
+export default Pagination;

@@ -19,7 +19,7 @@ type Props = {
 
 const { width } = Dimensions.get("screen");
 
-const sliderItem = ({ slideItem, index, scrollX }: Props) => {
+const SliderItem = ({ slideItem, index, scrollX }: Props) => {
   const { COLORS } = useContext(ThemeContext);
   const styles = getStyles(COLORS);
   
@@ -64,4 +64,4 @@ const sliderItem = ({ slideItem, index, scrollX }: Props) => {
   );
 };
 
-export default sliderItem;
+export default SliderItem;
