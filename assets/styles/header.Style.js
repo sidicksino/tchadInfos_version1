@@ -5,7 +5,6 @@ export const getStyles = (COLORS) =>
         header: {
             backgroundColor: COLORS.background,
             paddingHorizontal: 10,
-            paddingTop: 5,
             marginBottom: 20,
         },
         headerTop: {
@@ -18,16 +17,16 @@ export const getStyles = (COLORS) =>
             flexDirection: "row",
             justifyContent: "space-between",
             alignItems: "center",
-            marginTop: 15,
+            marginTop: 5,
         },
         logo: {
             width: 200,
-            height: 33,
+            height: 35,
             resizeMode: "contain",
         },
         notification: {
             backgroundColor: COLORS.text + "80",
-            padding: 10,
+            padding: 8,
             borderRadius: 30,
         },
         searchBox: {

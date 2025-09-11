@@ -83,8 +83,8 @@ const styles = StyleSheet.create({
     fontFamily: "Epilogue_500Medium",
   },
   slideWrapper: {
-    //width: "100%",
+    // width: "100%",
     justifyContent: "center",
-    //flex: 1,
+    // flex: 1,
   },
 });

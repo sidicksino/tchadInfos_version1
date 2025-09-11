@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { ActivityIndicator, View } from "react-native";
 import { getStyles } from "../../assets/styles/home.Style";
 import BreakingNews from "../../components/breakingNwes";
+import Categories from "../../components/categories";
 import Header from "../../components/header";
 import TodayList from "../../components/todayList";
 import { ThemeContext } from "../../context/ThemeContext";
@@ -46,6 +47,7 @@ const index = () => {
           <TodayList newsList={breakingNews} />
         </>
       )}
+      <Categories />
     </View>
   );
 };

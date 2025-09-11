@@ -4,21 +4,21 @@ const { width } = Dimensions.get("screen");
 
 export const getStyles = (COLORS) => StyleSheet.create({
     itemWrapper: {
-        width: 178,
-        height: 151,
-        marginRight: 20,
+        width: 158,
+        height: 121,
+        marginRight: 10,
         paddingHorizontal: 10,
 
     },
     image: {
-        width: 178,
-        height: 151,
+        width: 158,
+        height: 121,
         borderRadius: 20,
     },
     backround: {
         position: "absolute",
-        width: 178,
-        height: 151,
+        width: 158,
+        height: 121,
         borderRadius: 20,
         padding: 10,
         left: 10,

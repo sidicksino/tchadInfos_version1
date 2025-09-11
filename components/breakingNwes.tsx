@@ -1,8 +1,10 @@
-import React, { useRef, useState } from "react";
-import { StyleSheet, View, ViewToken } from "react-native";
+import React, { useEffect, useRef, useState } from "react";
+import { StyleSheet, View, ViewToken, useWindowDimensions } from "react-native";
 import Animated, {
+  scrollTo,
   useAnimatedRef,
   useAnimatedScrollHandler,
+  useDerivedValue,
   useSharedValue,
 } from "react-native-reanimated";
 import { NewsDataType } from "../types";
@@ -18,30 +20,61 @@ const BreakingNews = ({ newsList }: Props) => {
   const [paginationIndex, setPaginationIndex] = useState(0);
   const scrollX = useSharedValue(0);
   const ref = useAnimatedRef<Animated.FlatList<any>>();
+  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+  const interval = useRef<number | null>(null);
+  const offset = useSharedValue(0);
+  const { width } = useWindowDimensions();
 
   const scrollHandler = useAnimatedScrollHandler({
     onScroll: (event) => {
       scrollX.value = event.contentOffset.x;
     },
+    onMomentumEnd: (e) => {
+      offset.value = e.contentOffset.x;
+    },
   });
 
+  useEffect(() => {
+    if (isAutoPlaying) {
+      interval.current = setInterval(() => {
+        offset.value = offset.value + width;
+      }, 3000);
+    } else if (interval.current) {
+      clearInterval(interval.current);
+      interval.current = null;
+    }
+  
+    return () => {
+      if (interval.current) {
+        clearInterval(interval.current);
+        interval.current = null;
+      }
+    };
+  }, [isAutoPlaying, offset, width]);
+  
 
-  const onViewableItemsChanged = ({ 
-    viewableItems, 
-  }:{ 
-    viewableItems: ViewToken[] 
-  } ) => {
-    if (viewableItems[0].index !== undefined && viewableItems[0].index !== null) {
+  useDerivedValue(() => {
+    scrollTo(ref, offset.value, 0, true);
+  });
+
+  const onViewableItemsChanged = ({
+    viewableItems,
+  }: {
+    viewableItems: ViewToken[];
+  }) => {
+    if (viewableItems.length > 0 && viewableItems[0]?.index != null) {
       setPaginationIndex(viewableItems[0].index % newsList.length);
     }
   };
+  
   const viewabilityConfig = {
     itemVisiblePercentThreshold: 50,
   };
-  
+
   const viewabilityConfigCallbackPairs = useRef([
     {
-      viewabilityConfig, onViewableItemsChanged,
+      viewabilityConfig,
+      onViewableItemsChanged,
     },
   ]);
 
@@ -62,11 +95,17 @@ const BreakingNews = ({ newsList }: Props) => {
           scrollEventThrottle={16}
           onEndReachedThreshold={0.5}
           onEndReached={() => setData([...data, ...newsList])}
-          viewabilityConfigCallbackPairs= {
+          viewabilityConfigCallbackPairs={
             viewabilityConfigCallbackPairs.current
           }
+          onScrollBeginDrag={() => setIsAutoPlaying(false)}
+          onScrollEndDrag={() => setIsAutoPlaying(true)}
         />
-        <Pagination items={newsList} scrollX={scrollX} paginationIndex={paginationIndex}/>
+        <Pagination
+          items={newsList}
+          scrollX={scrollX}
+          paginationIndex={paginationIndex}
+        />
       </View>
     </View>
   );

@@ -11,7 +11,7 @@ export const  getStyles = (COLORS) => StyleSheet.create({
     },
     image: {
       width: width - 60,
-      height: 230,
+      height: 200,
       borderRadius: 20,
     },
     backround: {
@@ -20,13 +20,13 @@ export const  getStyles = (COLORS) => StyleSheet.create({
       right: 0,
       top: 0,
       width: width - 60,
-      height: 230,
+      height: 200,
       borderRadius: 20,
       padding: 10,
     },
     sourceInfos: {
       position: "absolute",
-      top: 125,
+      top: 105,
       paddingHorizontal: 20,
     },
     sourceName: {
@@ -40,7 +40,7 @@ export const  getStyles = (COLORS) => StyleSheet.create({
       fontSize: 16,
       position: "absolute",
       fontFamily: "Epilogue_400Regular",
-      top: 160,
+      top: 130,
       fontWeight: "200",
       paddingHorizontal: 20,
       lineHeight: 20,
