@@ -1,10 +1,22 @@
 import React, { useRef, useState } from "react";
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { categories } from "../constants/Categories";
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import newsCategoryList from "../constants/Categories";
 
-const CategoriesComponent = () => {
+type Props = {
+  onCategoryChanged: (category: string) => void;
+};
+
+const CategoriesComponent = ({ onCategoryChanged }: Props) => {
   const scrollRef = useRef<ScrollView>(null);
-  const itemRef = useRef<Array<React.ElementRef<typeof TouchableOpacity> | null>>([]);
+  const itemRef = useRef<
+    Array<React.ElementRef<typeof TouchableOpacity> | null>
+  >([]);
   const [activeCategory, setActiveCategory] = useState(0);
 
   const handleCategoryPress = (index: number) => {
@@ -16,17 +28,18 @@ const CategoriesComponent = () => {
         scrollRef.current?.scrollTo({ x: x - 10, y: 0, animated: true });
       }
     );
+    onCategoryChanged(newsCategoryList[index].slug);
   };
 
   return (
-    <View style={styles.container}>
+    <View>
       <ScrollView
         ref={scrollRef}
         horizontal
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={{ paddingHorizontal: 5 }}
       >
-        {categories.map((category, index) => (
+        {newsCategoryList.map((category, index) => (
           <TouchableOpacity
             key={category.id}
             ref={(el) => (itemRef.current[index] = el)}
@@ -54,9 +67,6 @@ const CategoriesComponent = () => {
 export default CategoriesComponent;
 
 const styles = StyleSheet.create({
-  container: {
-    paddingVertical: 10,
-  },
   categoryButton: {
     paddingHorizontal: 20,
     paddingVertical: 8,

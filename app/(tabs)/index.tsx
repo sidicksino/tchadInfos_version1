@@ -28,6 +28,10 @@ const index = () => {
     }
   };
 
+  const onCatChanged = (category : string) => {
+    console.log("Categories", category);
+  }
+
   useEffect(() => {
     getBreakingNews();
   }, []);
@@ -47,7 +51,7 @@ const index = () => {
           <TodayList newsList={breakingNews} />
         </>
       )}
-      <Categories />
+      <Categories onCategoryChanged={onCatChanged} />
     </View>
   );
 };
