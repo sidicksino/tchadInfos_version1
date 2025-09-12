@@ -16,6 +16,7 @@ import {
 import { EagleLake_400Regular, useFonts as useEagleLakeFonts } from "@expo-google-fonts/eagle-lake";
 
 // Fonts Tangerine
+import Loading from "@/components/loading";
 import {
   Tangerine_400Regular,
   Tangerine_700Bold,
@@ -49,9 +50,9 @@ export default function RootLayout() {
     Tangerine_700Bold,
   });
 
-  // if (!epilogueLoaded || !eagleLakeLoaded || !tangerineLoaded) {
-  //   return <AppLoading />; // ou null si tu n'as pas expo-app-loading
-  // }
+  if (!epilogueLoaded || !eagleLakeLoaded || !tangerineLoaded) {
+    return <Loading />; // ou null si tu n'as pas expo-app-loading
+  }
 
   return (
     <ThemeProvider>
@@ -69,8 +70,6 @@ function RootLayoutNav() {
     <Stack screenOptions={{ headerShown: false }}>
       <Stack.Screen name="index" />
       <Stack.Screen name="(tabs)" />
-      <Stack.Screen name="onboarding" />
-      <Stack.Screen name="onboarding1" />
     </Stack>
   );
 }

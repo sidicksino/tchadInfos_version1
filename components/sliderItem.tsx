@@ -1,6 +1,7 @@
 import { LinearGradient } from "expo-linear-gradient";
+import { Link } from "expo-router";
 import React, { useContext } from "react";
-import { Dimensions, Image, Text, View } from "react-native";
+import { Dimensions, Image, Text, TouchableOpacity, View } from "react-native";
 import Animated, {
   Extrapolation,
   SharedValue,
@@ -22,7 +23,7 @@ const { width } = Dimensions.get("screen");
 const SliderItem = ({ slideItem, index, scrollX }: Props) => {
   const { COLORS } = useContext(ThemeContext);
   const styles = getStyles(COLORS);
-  
+
   const rnStyle = useAnimatedStyle(() => {
     return {
       transform: [
@@ -47,20 +48,24 @@ const SliderItem = ({ slideItem, index, scrollX }: Props) => {
   });
 
   return (
-    <Animated.View style={[styles.itemWrapper, rnStyle]}>
-      <Image source={{ uri: slideItem.image_url }} style={styles.image} />
-      <LinearGradient
-        colors={["transparent", "rgb(0,51,160)"]}
-        style={styles.backround}
-      >
-        <View style={styles.sourceInfos}>
-          <Text style={styles.sourceName}>{slideItem.source_name}</Text>
-        </View>
-        <Text style={styles.title} numberOfLines={3}>
-          {slideItem.title}
-        </Text>
-      </LinearGradient>
-    </Animated.View>
+    <Link href={`/news/${slideItem.article_id}`} asChild>
+    <TouchableOpacity>
+      <Animated.View style={[styles.itemWrapper, rnStyle]}>
+        <Image source={{ uri: slideItem.image_url }} style={styles.image} />
+        <LinearGradient
+          colors={["transparent", "rgb(0,51,160)"]}
+          style={styles.backround}
+        >
+          <View style={styles.sourceInfos}>
+            <Text style={styles.sourceName}>{slideItem.source_name}</Text>
+          </View>
+          <Text style={styles.title} numberOfLines={3}>
+            {slideItem.title}
+          </Text>
+        </LinearGradient>
+      </Animated.View>
+    </TouchableOpacity>
+    </Link>
   );
 };
 

@@ -2,6 +2,7 @@ import React from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
 import Time from "../assets/images/time.svg";
 import { NewsDataType } from "../types";
+import Loading from "./loading";
 
 type Props = {
   newsList: Array<NewsDataType>;
@@ -10,23 +11,26 @@ type Props = {
 const News = ({ newsList }: Props) => {
   return (
     <View style={styles.container}>
-      {newsList.map((item, index) => (
-        <View key={index} style={styles.itemContainer}>
-          <Image source={{ uri: item.image_url }} style={styles.itemImage} />
-          <View style={styles.itemInfo}>
-            <Text style={styles.itemCategory}>{item.category}</Text>
-            <Text style={styles.itemTitle} numberOfLines={3}>
-              {item.title}
-            </Text>
-            <View style={styles.itemDate}>
-              <View style={styles.logo}>
-                <Time />
+      {newsList.length == 0 ? (
+        <Loading size={"large"}/>
+      ) : (
+          newsList.map((item, index) => (
+            <View key={index} style={styles.itemContainer}>
+              <Image source={{ uri: item.image_url }} style={styles.itemImage} />
+              <View style={styles.itemInfo}>
+                <Text style={styles.itemCategory}>{item.category}</Text>
+                <Text style={styles.itemTitle} numberOfLines={3}>
+                  {item.title}
+                </Text>
+                <View style={styles.itemDate}>
+                  <View style={styles.logo}>
+                    <Time />
+                  </View>
+                  <Text style={styles.itemDateText} >{item.pubDate}</Text>
+                </View>
               </View>
-              <Text style={styles.itemDateText} >{item.pubDate}</Text>
             </View>
-          </View>
-        </View>
-      ))}
+          )))}
     </View>
   );
 };
