@@ -30,7 +30,7 @@ const TabsLayout = () => {
             position: "absolute",
             left: 0,
             right: 0,
-            height: 83, // hauteur de ton design
+            height: 70,
             paddingBottom: 10,
             paddingTop: 10,
             justifyContent: "center",

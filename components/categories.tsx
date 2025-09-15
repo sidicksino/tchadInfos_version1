@@ -69,7 +69,7 @@ export default CategoriesComponent;
 const styles = StyleSheet.create({
   categoryButton: {
     paddingHorizontal: 20,
-    paddingVertical: 8,
+    paddingVertical: 4,
     borderWidth: 1,
     borderColor: "#FF3B30",
     borderRadius: 20,

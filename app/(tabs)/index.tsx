@@ -62,7 +62,9 @@ const index = () => {
   return (
     <View style={styles.container}>
       <Header />
-      <ScrollView>
+      <ScrollView
+      showsVerticalScrollIndicator = {false}
+      >
         {isLoading ? (
           <Loading size={"large"} />
         ) : (

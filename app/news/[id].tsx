@@ -125,7 +125,7 @@ useEffect(() => {
               >
                 <Ionicons
                   name={bookmark ? "bookmark" : "bookmark-outline"}
-                  color={bookmark ? "red" : "black"}
+                  color={bookmark ? "red" : "white"}
                   size={22}
                 />
               </TouchableOpacity>
@@ -161,7 +161,7 @@ const styles = StyleSheet.create({
   },
   headerSearche: {
     position: "absolute",
-    top: 40,
+    top: 30,
     left: 0,
     right: 0,
     flexDirection: "row",

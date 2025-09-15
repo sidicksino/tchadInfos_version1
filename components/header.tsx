@@ -1,5 +1,5 @@
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { useRouter } from "expo-router"; // si tu utilises expo-router
+import { useRouter } from "expo-router";
 import React, { useContext } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import Menu from "../assets/images/menu.svg";
