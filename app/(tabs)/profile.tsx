@@ -51,15 +51,6 @@ const profile = () => {
               <View style={styles.content}>
                 <TouchableOpacity style={styles.profileSetting}>
                   <View style={styles.flex}>
-                    <Ionicons name="invert-mode" size={24} color={COLORS.text}/>
-                    <Text style={styles.text}>Theme</Text>
-                  </View>
-                  <AntDesign name="right" size={24} color={COLORS.text} />
-                </TouchableOpacity>
-              </View>
-              <View style={styles.content}>
-                <TouchableOpacity style={styles.profileSetting}>
-                  <View style={styles.flex}>
                     <FontAwesome6
                       name="contact-book"
                       size={24}
@@ -92,6 +83,19 @@ const profile = () => {
                       color={COLORS.text}
                     />
                     <Text style={styles.text}>À propos</Text>
+                  </View>
+                  <AntDesign name="right" size={24} color={COLORS.text} />
+                </TouchableOpacity>
+              </View>
+              <View style={styles.content}>
+                <TouchableOpacity style={styles.profileSetting}>
+                  <View style={styles.flex}>
+                    <Ionicons
+                      name="invert-mode"
+                      size={24}
+                      color={COLORS.text}
+                    />
+                    <Text style={styles.text}>Theme</Text>
                   </View>
                   <AntDesign name="right" size={24} color={COLORS.text} />
                 </TouchableOpacity>
