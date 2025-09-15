@@ -1,17 +1,25 @@
+import SafeScreen from "@/components/SafeScreen";
 import Loading from "@/components/loading";
 import { NewsItem } from "@/components/news";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useIsFocused } from "@react-navigation/native";
 import axios from "axios";
 import { Link } from "expo-router";
+import { StatusBar } from "expo-status-bar";
 import React, { useContext, useEffect, useState } from "react";
-import { FlatList, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  FlatList,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { getStyles } from "../../assets/styles/favorite.Style";
 import Header from "../../components/header";
 import { ThemeContext } from "../../context/ThemeContext";
 
 const Favorite = () => {
-  const { COLORS } = useContext(ThemeContext);
+  const { COLORS, isDarkMode } = useContext(ThemeContext);
   const themeStyles = getStyles(COLORS);
 
   const [selected, setSelected] = useState<"option1" | "option2">("option1");
@@ -29,7 +37,7 @@ const Favorite = () => {
     try {
       const token = await AsyncStorage.getItem("bookmark");
       const res = token ? JSON.parse(token) : null;
-      setIsLoading(true)
+      setIsLoading(true);
 
       if (res && res.length > 0) {
         let query_string = res.join(",");
@@ -50,62 +58,90 @@ const Favorite = () => {
   };
 
   return (
-    <View style={themeStyles.container}>
-      <Header />
+    <SafeScreen>
+      <StatusBar style={isDarkMode ? "light" : "dark"} />
 
-      {/* Boutons Onglets */}
-      <View style={style.sectorButton}>
-        <TouchableOpacity
-          style={[style.option, selected === "option1" && style.selectedOption]}
-          onPress={() => setSelected("option1")}
-        >
-          <Text style={[style.optionText, selected === "option1" && style.selectedText]}>
-            Actualités
-          </Text>
-        </TouchableOpacity>
+      <View style={themeStyles.container}>
+        <Header />
 
-        <TouchableOpacity
-          style={[style.option, selected === "option2" && style.selectedOption]}
-          onPress={() => setSelected("option2")}
-        >
-          <Text style={[style.optionText, selected === "option2" && style.selectedText]}>
-            Vidéo
-          </Text>
-        </TouchableOpacity>
+        {/* Boutons Onglets */}
+        <View style={style.sectorButton}>
+          <TouchableOpacity
+            style={[
+              style.option,
+              selected === "option1" && style.selectedOption,
+            ]}
+            onPress={() => setSelected("option1")}
+          >
+            <Text
+              style={[
+                style.optionText,
+                selected === "option1" && style.selectedText,
+              ]}
+            >
+              Actualités
+            </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={[
+              style.option,
+              selected === "option2" && style.selectedOption,
+            ]}
+            onPress={() => setSelected("option2")}
+          >
+            <Text
+              style={[
+                style.optionText,
+                selected === "option2" && style.selectedText,
+              ]}
+            >
+              Vidéo
+            </Text>
+          </TouchableOpacity>
+        </View>
+
+        {/* Affichage conditionnel */}
+        <View style={style.content}>
+          {selected === "option1" && (
+            <>
+              {isLoading ? (
+                <Loading />
+              ) : bookmarkNews.length === 0 ? (
+                <Text style={{ textAlign: "center", marginTop: 20 }}>
+                  Aucun bookmark trouvé
+                </Text>
+              ) : (
+                <FlatList
+                  data={bookmarkNews}
+                  keyExtractor={(_, index) => `list_item${index}`}
+                  showsVerticalScrollIndicator={false}
+                  renderItem={({ item, index }) => (
+                    <Link href={`/news/${item.article_id}`} asChild key={index}>
+                      <TouchableOpacity>
+                        <NewsItem item={item} />
+                      </TouchableOpacity>
+                    </Link>
+                  )}
+                />
+              )}
+            </>
+          )}
+
+          {selected === "option2" && (
+            <View
+              style={{
+                flex: 1,
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Text style={{ fontSize: 18 }}>Hello Vidéo 🚀</Text>
+            </View>
+          )}
+        </View>
       </View>
-
-      {/* Affichage conditionnel */}
-      <View style={style.content}>
-        {selected === "option1" && (
-          <>
-            {isLoading ? (
-              <Loading />
-            ) : bookmarkNews.length === 0 ? (
-              <Text style={{ textAlign: "center", marginTop: 20 }}>Aucun bookmark trouvé</Text>
-            ) : (
-              <FlatList
-                data={bookmarkNews}
-                keyExtractor={(_, index) => `list_item${index}`}
-                showsVerticalScrollIndicator={false}
-                renderItem={({ item, index }) => (
-                  <Link href={`/news/${item.article_id}`} asChild key={index}>
-                    <TouchableOpacity>
-                      <NewsItem item={item} />
-                    </TouchableOpacity>
-                  </Link>
-                )}
-              />
-            )}
-          </>
-        )}
-
-        {selected === "option2" && (
-          <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-            <Text style={{ fontSize: 18 }}>Hello Vidéo 🚀</Text>
-          </View>
-        )}
-      </View>
-    </View>
+    </SafeScreen>
   );
 };
 
@@ -119,9 +155,9 @@ const style = StyleSheet.create({
     borderRadius: 100,
     marginHorizontal: 87,
   },
-  content:{
+  content: {
     margin: 20,
-    flex: 1
+    flex: 1,
   },
   option: {
     borderRadius: 100,

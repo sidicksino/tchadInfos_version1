@@ -7,7 +7,7 @@ type SafeScreenProps = {
   children: ReactNode;
 };
 
-const SafeScreen: React.FC<SafeScreenProps> = ({ children }) => {
+const SafeScreenScondaire: React.FC<SafeScreenProps> = ({ children }) => {
   const { COLORS } = useContext(ThemeContext);
   const insets = useSafeAreaInsets();
 
@@ -16,7 +16,7 @@ const SafeScreen: React.FC<SafeScreenProps> = ({ children }) => {
       style={{
         paddingTop: insets.top,
         flex: 1,
-        backgroundColor: COLORS.background,
+        backgroundColor: COLORS.text,
       }}
     >
       {children}
@@ -24,4 +24,4 @@ const SafeScreen: React.FC<SafeScreenProps> = ({ children }) => {
   );
 };
 
-export default SafeScreen;
+export default SafeScreenScondaire;

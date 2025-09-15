@@ -1,3 +1,4 @@
+import SafeScreen from "@/components/SafeScreen";
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { ScrollView, View } from "react-native";
@@ -36,10 +37,10 @@ const index = () => {
     }
   };
 
-  const getNews = async (category: string = '') => {
-    let categoryString = '';
-    if (category.length !== 0 ){
-      categoryString = `&category=${category}`
+  const getNews = async (category: string = "") => {
+    let categoryString = "";
+    if (category.length !== 0) {
+      categoryString = `&category=${category}`;
     }
     try {
       const URL = `https://newsdata.io/api/1/latest?apikey=${process.env.EXPO_PUBLIC_API_KEY}&language=fr&image=1&removeduplicate=1&size=10${categoryString}`;
@@ -60,23 +61,23 @@ const index = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <Header />
-      <ScrollView
-      showsVerticalScrollIndicator = {false}
-      >
-        {isLoading ? (
-          <Loading size={"large"} />
-        ) : (
-          <>
-            <BreakingNews newsList={breakingNews} />
-            <TodayList newsList={breakingNews} />
-          </>
-        )}
-        <Categories onCategoryChanged={onCatChanged} />
-        <News newsList={news} />
-      </ScrollView>
-    </View>
+    <SafeScreen>
+      <View style={styles.container}>
+        <Header />
+        <ScrollView showsVerticalScrollIndicator={false}>
+          {isLoading ? (
+            <Loading size={"large"} />
+          ) : (
+            <>
+              <BreakingNews newsList={breakingNews} />
+              <TodayList newsList={breakingNews} />
+            </>
+          )}
+          <Categories onCategoryChanged={onCatChanged} />
+          <News newsList={news} />
+        </ScrollView>
+      </View>
+    </SafeScreen>
   );
 };
 

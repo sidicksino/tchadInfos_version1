@@ -1,4 +1,4 @@
-import SafeScreen from "@/components/SafeScreen";
+import SafeScreenTabs from "@/components/SafeScreenTabs";
 import { ThemeContext } from "@/context/ThemeContext";
 import { Ionicons } from "@expo/vector-icons";
 import EvilIcons from '@expo/vector-icons/EvilIcons';
@@ -12,7 +12,7 @@ const TabsLayout = () => {
   const { COLORS, isDarkMode } = useContext(ThemeContext);
 
   return (
-    <SafeScreen>
+    <SafeScreenTabs>
       <StatusBar style={isDarkMode ? "light" : "dark"} />
       <Tabs
         screenOptions={{
@@ -152,7 +152,7 @@ const TabsLayout = () => {
           }}
         />
       </Tabs>
-    </SafeScreen>
+    </SafeScreenTabs>
   );
 };
 

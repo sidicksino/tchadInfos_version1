@@ -1,3 +1,4 @@
+import SafeScreen from "@/components/SafeScreen";
 import React, { useContext } from "react";
 import { View } from "react-native";
 import { getStyles } from "../../assets/styles/video.Style";
@@ -10,11 +11,13 @@ const video = () => {
   const styles = getStyles(COLORS);
 
   return (
-    <View style={styles.container}>
-      <Header/>
-      <VideoNewsScreen/>
-    </View>
-  )
-}
+    <SafeScreen>
+      <View style={styles.container}>
+        <Header />
+        <VideoNewsScreen />
+      </View>
+    </SafeScreen>
+  );
+};
 
-export default video
+export default video;
