@@ -12,7 +12,7 @@ const live = () => {
 
   return (
     <SafeScreenScondaire>
-      <View style={{ flex: 1, backgroundColor: "white" }}>
+      <View style={styles.contenair}>
         <HeaderSecondaire />
         <Text style={styles.textLive}>
           Choisissez votre mode préféré pour rester connecté à l’actualité :

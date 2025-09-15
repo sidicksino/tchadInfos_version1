@@ -1,17 +1,17 @@
 import { Ionicons } from "@expo/vector-icons";
 import React from "react";
 import {
-    FlatList,
-    Image,
-    Modal,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
+  FlatList,
+  Image,
+  Modal,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from "react-native";
 import { WebView } from "react-native-webview";
 
-// ✅ Remplace SafeAreaView par useSafeAreaInsets
+// Remplace SafeAreaView par useSafeAreaInsets
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { videosTchad } from "../constants/videosTchad";
@@ -36,7 +36,7 @@ const VideoNewsScreen = () => {
             >
               <Image
                 source={{
-                  uri: `https://img.youtube.com/vi/${item.videoId}/hqdefault.jpg`, // ✅ ESPACES SUPPRIMÉS
+                  uri: `https://img.youtube.com/vi/${item.videoId}/hqdefault.jpg`, // ESPACES SUPPRIMÉS
                 }}
                 style={styles.thumbnail}
                 resizeMode="cover"

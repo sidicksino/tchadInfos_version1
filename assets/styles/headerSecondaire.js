@@ -2,6 +2,10 @@ import { StyleSheet } from "react-native";
 
 export const getStyles = (COLORS) =>
     StyleSheet.create({
+        contenair:{
+            flex: 1,
+            backgroundColor: COLORS.background,
+        },
         header: {
             backgroundColor: COLORS.text,
             justifyContent: "center",
@@ -18,7 +22,7 @@ export const getStyles = (COLORS) =>
             padding: 25,
             top: 40,
         },
-        content:{
+        content: {
             top: 80,
             flex: 1,
             flexDirection: 'row',
@@ -27,17 +31,17 @@ export const getStyles = (COLORS) =>
             alignContent: 'center',
             paddingHorizontal: '15%'
         },
-        button:{
+        button: {
             backgroundColor: COLORS.primary,
             padding: 20,
             borderRadius: 20,
             alignContent: 'center',
             alignItems: 'center'
         },
-        buttonLive:{
+        buttonLive: {
             gap: 25
         },
-        buttonTextLive:{
+        buttonTextLive: {
             fontFamily: 'times new roman',
             fontSize: 20
         }
