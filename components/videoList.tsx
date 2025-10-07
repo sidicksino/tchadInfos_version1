@@ -151,8 +151,8 @@ const styles = StyleSheet.create({
   /* ———— MODAL STYLE ———— */
   closeButtonOverlay: {
     position: "absolute",
-    top: 0,
-    left: 0,
+    top: 100,
+    left: -"190%",
     right: 0,
     height: 60,
     zIndex: 9999,

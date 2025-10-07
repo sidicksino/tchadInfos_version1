@@ -6,13 +6,19 @@ import { ThemeContext } from "@/context/ThemeContext";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
+import { useRouter } from "expo-router";
 import React, { useContext, useState } from "react";
 import { Image, Text, TouchableOpacity, View } from "react-native";
 
 const profile = () => {
+  const router = useRouter();
   const [isLoged, setIsLoading] = useState(false);
   const { COLORS } = useContext(ThemeContext);
   const styles = getStyles(COLORS);
+
+  const AboutHandled = () => {
+      router.push("/pages/about");
+  };
 
   return (
     <SafeScreenScondaire>
@@ -75,7 +81,7 @@ const profile = () => {
                 </TouchableOpacity>
               </View>
               <View style={styles.content}>
-                <TouchableOpacity style={styles.profileSetting}>
+                <TouchableOpacity style={styles.profileSetting} onPress={AboutHandled}>
                   <View style={styles.flex}>
                     <AntDesign
                       name="info-circle"

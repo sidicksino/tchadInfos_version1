@@ -3,7 +3,6 @@ import { StatusBar } from "expo-status-bar";
 import { useContext } from "react";
 import { ThemeContext, ThemeProvider } from "../context/ThemeContext";
 
-// ---------------------------
 // Fonts Epilogue
 import {
   Epilogue_400Regular,
@@ -51,7 +50,7 @@ export default function RootLayout() {
   });
 
   if (!epilogueLoaded || !eagleLakeLoaded || !tangerineLoaded) {
-    return <Loading />; // ou null si tu n'as pas expo-app-loading
+    return <Loading />;
   }
 
   return (
@@ -62,7 +61,6 @@ export default function RootLayout() {
   );
 }
 
-// ---------------------------
 function RootLayoutNav() {
   const { isDarkMode } = useContext(ThemeContext);
 
