@@ -1,6 +1,8 @@
 import SafeScreen from "@/components/SafeScreen";
 import Loading from "@/components/loading";
 import { NewsItem } from "@/components/news";
+import VideoNewsScreen from "@/components/videoList";
+import { YouTubeVideo } from "@/services/youtubeService";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useIsFocused } from "@react-navigation/native";
 import axios from "axios";
@@ -24,27 +26,31 @@ const Favorite = () => {
 
   const [selected, setSelected] = useState<"option1" | "option2">("option1");
   const [bookmarkNews, setBookmarkNews] = useState<any[]>([]);
+  const [bookmarkVideos, setBookmarkVideos] = useState<YouTubeVideo[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const isFocused = useIsFocused();
 
   useEffect(() => {
-    if (isFocused && selected === "option1") {
-      fetchBookmark();
+    if (isFocused) {
+      if (selected === "option1") {
+        fetchBookmark();
+      } else {
+        fetchVideoBookmark();
+      }
     }
   }, [isFocused, selected]);
 
   const fetchBookmark = async () => {
     try {
+      setIsLoading(true);
       const token = await AsyncStorage.getItem("bookmark");
       const res = token ? JSON.parse(token) : null;
-      setIsLoading(true);
 
       if (res && res.length > 0) {
         let query_string = res.join(",");
         const response = await axios.get(
           `https://newsdata.io/api/1/latest?apikey=${process.env.EXPO_PUBLIC_API_KEY}&id=${query_string}`
         );
-
         setBookmarkNews(response.data.results || []);
       } else {
         setBookmarkNews([]);
@@ -54,6 +60,23 @@ const Favorite = () => {
       setBookmarkNews([]);
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const fetchVideoBookmark = async () => {
+    try {
+        setIsLoading(true);
+        const stored = await AsyncStorage.getItem("video_bookmarks");
+        if (stored) {
+            setBookmarkVideos(JSON.parse(stored));
+        } else {
+            setBookmarkVideos([]);
+        }
+    } catch (e) {
+        console.error("Error fetching video bookmarks", e);
+        setBookmarkVideos([]);
+    } finally {
+        setIsLoading(false);
     }
   };
 
@@ -108,9 +131,9 @@ const Favorite = () => {
               {isLoading ? (
                 <Loading />
               ) : bookmarkNews.length === 0 ? (
-                <Text style={{ textAlign: "center", marginTop: 20 }}>
-                  Aucun bookmark trouvé
-                </Text>
+                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                    <Text>Aucun article favori</Text>
+                </View>
               ) : (
                 <FlatList
                   data={bookmarkNews}
@@ -129,15 +152,18 @@ const Favorite = () => {
           )}
 
           {selected === "option2" && (
-            <View
-              style={{
-                flex: 1,
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <Text style={{ fontSize: 18 }}>Hello Vidéo 🚀</Text>
-            </View>
+             <>
+             {isLoading ? (
+               <Loading />
+             ) : bookmarkVideos.length === 0 ? (
+               <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                    <Text>Aucune vidéo favorite</Text>
+               </View>
+             ) : (
+                // Reuse the same Video List component!
+                <VideoNewsScreen videoList={bookmarkVideos} />
+             )}
+           </>
           )}
         </View>
       </View>
