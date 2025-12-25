@@ -24,10 +24,28 @@ export default function SearchScreen() {
   const [isLoading, setIsLoading] = useState(false);
   const inputRef = useRef<TextInput>(null);
 
+  const [initialNews, setInitialNews] = useState<NewsDataType[]>([]);
+
   useEffect(() => {
     // Auto-focus the input when entering the screen
     setTimeout(() => inputRef.current?.focus(), 100);
+    getInitialNews();
   }, []);
+
+  const getInitialNews = async () => {
+    setIsLoading(true);
+    try {
+      const URL = `https://newsdata.io/api/1/latest?apikey=${process.env.EXPO_PUBLIC_API_KEY}&language=fr&image=1&removeduplicate=1&size=10`;
+      const response = await axios.get(URL);
+      if (response && response.data) {
+        setInitialNews(response.data.results);
+      }
+    } catch (err) {
+      console.error("Initial news error:", err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const handleSearch = async (text: string) => {
     setQuery(text);
@@ -59,6 +77,8 @@ export default function SearchScreen() {
       </TouchableOpacity>
     </Link>
   );
+
+  const displayData = query.length > 0 ? results : initialNews;
 
   return (
     <SafeScreen>
@@ -95,12 +115,17 @@ export default function SearchScreen() {
           </View>
         ) : (
           <FlatList
-            data={results}
+            data={displayData}
             keyExtractor={(item) => item.article_id}
             renderItem={renderItem}
             contentContainerStyle={{ paddingBottom: 50, paddingTop: 10 }}
+            ListHeaderComponent={
+                query.length === 0 && initialNews.length > 0 ? (
+                    <Text style={{ marginLeft: 20, marginBottom: 10, fontSize: 16, fontFamily: 'Epilogue_700Bold', color: COLORS.text }}>Actualités récentes</Text>
+                ) : null
+            }
             ListEmptyComponent={
-              query.length > 2 ? (
+              query.length > 2 && !isLoading ? (
                 <View style={styles.center}>
                   <Text style={{ color: COLORS.textLight, fontFamily: 'Epilogue_400Regular' }}>Aucun résultat trouvé</Text>
                 </View>

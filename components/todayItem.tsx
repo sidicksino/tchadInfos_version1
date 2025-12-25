@@ -1,6 +1,7 @@
 import { LinearGradient } from "expo-linear-gradient";
+import { Link } from "expo-router";
 import React, { useContext } from "react";
-import { Dimensions, Image } from "react-native";
+import { Dimensions, Image, TouchableOpacity } from "react-native";
 import Animated from "react-native-reanimated";
 import { getStyles } from "../assets/styles/todayItem.Style";
 import { ThemeContext } from "../context/ThemeContext";
@@ -19,14 +20,18 @@ const TodayItem = ({ slideItem, index}: Props) => {
   const styles = getStyles(COLORS);
 
   return (
-    <Animated.View style={[styles.itemWrapper]}>
-      <Image source={{ uri: slideItem.image_url }} style={styles.image} />
-      <LinearGradient
-        colors={["transparent", "rgb(0,51,160)"]}
-        style={styles.backround}
-      >
-      </LinearGradient>
-    </Animated.View>
+    <Link href={`/news/${slideItem.article_id}`} asChild>
+      <TouchableOpacity>
+        <Animated.View style={[styles.itemWrapper]}>
+          <Image source={{ uri: slideItem.image_url }} style={styles.image} />
+          <LinearGradient
+            colors={["transparent", "rgb(0,51,160)"]}
+            style={styles.backround}
+          >
+          </LinearGradient>
+        </Animated.View>
+      </TouchableOpacity>
+    </Link>
   );
 };
 
