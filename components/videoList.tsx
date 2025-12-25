@@ -1,3 +1,4 @@
+import { YouTubeVideo } from "@/services/youtubeService";
 import { Ionicons } from "@expo/vector-icons";
 import React from "react";
 import {
@@ -9,15 +10,16 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { WebView } from "react-native-webview";
-
 // Remplace SafeAreaView par useSafeAreaInsets
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import YoutubePlayer from "react-native-youtube-iframe";
 
-import { videosTchad } from "../constants/videosTchad";
+type Props = {
+  videoList: YouTubeVideo[];
+};
 
-const VideoNewsScreen = () => {
-  const [selectedVideo, setSelectedVideo] = React.useState<string | null>(null);
+const VideoNewsScreen = ({ videoList }: Props) => {
+  const [selectedVideoId, setSelectedVideoId] = React.useState<string | null>(null);
 
   // Récupère les insets (zones sécurisées : notch, barre de navigation)
   const insets = useSafeAreaInsets();
@@ -25,57 +27,58 @@ const VideoNewsScreen = () => {
   return (
     <View style={styles.container}>
       <FlatList
-        data={videosTchad}
+        data={videoList}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <View style={styles.videoCard}>
             {/* Thumbnail cliquable */}
             <TouchableOpacity
-              onPress={() => setSelectedVideo(item.videoId)}
+              onPress={() => setSelectedVideoId(item.id)}
               activeOpacity={0.8}
             >
               <Image
                 source={{
-                  uri: `https://img.youtube.com/vi/${item.videoId}/hqdefault.jpg`, // ESPACES SUPPRIMÉS
+                  uri: item.thumbnail,
                 }}
                 style={styles.thumbnail}
                 resizeMode="cover"
               />
+               {/* Play Icon Overlay to indicate clickability */}
+               <View style={styles.playIconOverlay}>
+                  <Ionicons name="play-circle" size={50} color="white" />
+               </View>
             </TouchableOpacity>
 
             <View style={styles.flexFavorite}>
-              <Text style={styles.title}>{item.title}</Text>
+              <Text style={styles.title} numberOfLines={2}>{item.title}</Text>
               <TouchableOpacity
-                onPress={() => {}} // À remplacer plus tard si besoin
+                onPress={() => {}} // Fav bookmark logic can be added later
                 style={styles.backButton}
               >
-                <Ionicons name="bookmark-outline" color="#000" size={22} />
+                <Ionicons name="share-social-outline" color="#000" size={22} />
               </TouchableOpacity>
             </View>
 
             <Text style={styles.source}>
-              {item.source} -{" "}
+              {item.channelTitle} -{" "}
               {new Date(item.publishedAt).toLocaleDateString("fr-FR")}
-            </Text>
-            <Text style={styles.description} numberOfLines={3}>
-              {item.description}
             </Text>
           </View>
         )}
       />
 
-      {/* MODAL PLEIN ÉCRAN — VERSION DÉFINITIVE CORRIGÉE */}
+      {/* MODAL PLEIN ÉCRAN */}
       <Modal
-        visible={!!selectedVideo}
+        visible={!!selectedVideoId}
         animationType="slide"
-        onRequestClose={() => setSelectedVideo(null)}
+        onRequestClose={() => setSelectedVideoId(null)}
         transparent={false}
       >
-        <View style={{ flex: 1, backgroundColor: "#000" }}>
+        <View style={{ flex: 1, backgroundColor: "#000", justifyContent: 'center' }}>
           {/* Bouton Fermer — FIXÉ en haut, toujours visible */}
           <TouchableOpacity
             style={styles.closeButtonOverlay}
-            onPress={() => setSelectedVideo(null)}
+            onPress={() => setSelectedVideoId(null)}
             activeOpacity={0.7}
           >
             <View style={styles.closeButtonContainer}>
@@ -83,22 +86,21 @@ const VideoNewsScreen = () => {
             </View>
           </TouchableOpacity>
 
-          {/* WebView — prend tout l’espace restant */}
-          {selectedVideo && (
-            <WebView
-              source={{
-                uri: `https://www.youtube.com/embed/${selectedVideo}?autoplay=1&modestbranding=1&rel=0&controls=1`, // ✅ ESPACES SUPPRIMÉS
-              }}
-              style={{ flex: 1 }}
-              javaScriptEnabled={true}
-              domStorageEnabled={true}
-              allowsInlineMediaPlayback={true}
-              mediaPlaybackRequiresUserAction={false}
-              scalesPageToFit={true}
-              startInLoadingState={true}
-              showsVerticalScrollIndicator={false}
-              originWhitelist={["*"]}
-            />
+          {/* Youtube Native Player */}
+          {selectedVideoId && (
+            <View style={{ width: '100%' }}>
+                <YoutubePlayer
+                height={230} // 16:9 ratio approx for width
+                play={true}
+                videoId={selectedVideoId}
+                onChangeState={(state) => {
+                    if (state === "ended") {
+                        // Optional: close modal when video ends?
+                        // setSelectedVideoId(null);
+                    }
+                }}
+                />
+            </View>
           )}
         </View>
       </Modal>
@@ -129,6 +131,17 @@ const styles = StyleSheet.create({
     height: 180,
     borderRadius: 10,
   },
+  playIconOverlay: {
+    position: 'absolute', 
+    top: 0, 
+    left: 0, 
+    right: 0, 
+    bottom: 0, 
+    justifyContent: 'center', 
+    alignItems: 'center',
+    backgroundColor: 'rgba(0,0,0,0.3)',
+    borderRadius: 10
+  },
   title: {
     fontSize: 16,
     fontWeight: "bold",
@@ -141,31 +154,22 @@ const styles = StyleSheet.create({
     color: "#777",
     marginVertical: 4,
   },
-  description: {
-    fontSize: 14,
-    color: "#555",
-    lineHeight: 20,
-    marginTop: 6,
-  },
-
+  
   /* ———— MODAL STYLE ———— */
   closeButtonOverlay: {
     position: "absolute",
-    top: 100,
-    left: -"190%",
-    right: 0,
-    height: 60,
+    top: 50, // Adjusted for typical safe area
+    left: 20,
     zIndex: 9999,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(0,0,0,0.8)",
+    backgroundColor: "rgba(0,0,0,0.5)",
+    borderRadius: 30,
   },
   closeButtonContainer: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
     paddingHorizontal: 20,
-    paddingVertical: 8,
+    paddingVertical: 10,
     backgroundColor: "rgba(255, 59, 48, 0.9)",
     borderRadius: 30,
     borderWidth: 1,
@@ -173,24 +177,23 @@ const styles = StyleSheet.create({
   },
   closeButtonText: {
     color: "white",
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: "bold",
-    marginLeft: 8,
+    marginLeft: 5,
   },
 
   flexFavorite: {
     flexDirection: "row",
-    justifyContent: "space-between", // ← Changé de center à space-between
+    justifyContent: "space-between", 
     paddingVertical: 10,
     gap: 10,
-    marginRight: 50
+    marginRight: 0
   },
   backButton: {
-    top: 10,
     width: 40,
     height: 40,
-    backgroundColor: "#00000030",
-    borderRadius: 12,
+    backgroundColor: "#f0f0f0",
+    borderRadius: 20,
     justifyContent: "center",
     alignItems: "center",
   },
