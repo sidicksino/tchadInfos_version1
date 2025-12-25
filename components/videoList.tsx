@@ -93,7 +93,7 @@ const VideoNewsScreen = ({ videoList }: Props) => {
                 height={230} // 16:9 ratio approx for width
                 play={true}
                 videoId={selectedVideoId}
-                onChangeState={(state) => {
+                onChangeState={(state: string) => {
                     if (state === "ended") {
                         // Optional: close modal when video ends?
                         // setSelectedVideoId(null);
