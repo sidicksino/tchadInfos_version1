@@ -1,10 +1,10 @@
 import React, { useRef, useState } from "react";
 import {
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
+    ScrollView,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    View,
 } from "react-native";
 import newsCategoryList from "../constants/Categories";
 
@@ -42,7 +42,7 @@ const CategoriesComponent = ({ onCategoryChanged }: Props) => {
         {newsCategoryList.map((category, index) => (
           <TouchableOpacity
             key={category.id}
-            ref={(el) => (itemRef.current[index] = el)}
+            ref={(el) => { itemRef.current[index] = el; }}
             style={[
               styles.categoryButton,
               activeCategory === index && styles.activeCategoryButton,
@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
   categoryText: {
     fontSize: 12,
     color: "#FF3B30",
-    fontFamily: "Epilogue_400Bold",
+    fontFamily: "Epilogue_700Bold",
     letterSpacing: 0.5,
   },
   activeCategoryText: {

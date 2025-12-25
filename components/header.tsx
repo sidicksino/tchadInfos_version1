@@ -34,7 +34,7 @@ const Header = () => {
       <View style={styles.headerBottom}>
         <TouchableOpacity
           style={styles.searchBox}
-          // onPress={() => router.push("/search")}
+          onPress={() => router.push("/search")}
           activeOpacity={0.7}
         >
           <Text style={styles.reseachText}>Rechercher une actualité...</Text>
@@ -45,7 +45,10 @@ const Header = () => {
           />
         </TouchableOpacity >
 
-        <TouchableOpacity style={styles.profile}>
+        <TouchableOpacity 
+          style={styles.profile}
+          onPress={() => router.push("/(tabs)/profile")}
+        >
           <Menu fill={COLORS.primary}/>
         </TouchableOpacity>
       </View>

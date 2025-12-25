@@ -41,7 +41,7 @@ const TabsLayout = () => {
             fontSize: 13,
             fontWeight: "300",
             textTransform: "capitalize",
-            fontFamily: "Poppins_400Regular",
+            fontFamily: "Epilogue_400Regular",
             letterSpacing: 0.5,
             textAlignVertical: "center",
             top: 10,

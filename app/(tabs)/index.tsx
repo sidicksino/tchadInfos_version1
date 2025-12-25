@@ -1,13 +1,14 @@
 import SafeScreen from "@/components/SafeScreen";
 import axios from "axios";
+import { Link } from "expo-router";
 import React, { useContext, useEffect, useState } from "react";
-import { ScrollView, View } from "react-native";
+import { FlatList, Text, TouchableOpacity, View } from "react-native";
 import { getStyles } from "../../assets/styles/home.Style";
 import BreakingNews from "../../components/breakingNwes";
 import Categories from "../../components/categories";
 import Header from "../../components/header";
 import Loading from "../../components/loading";
-import News from "../../components/news";
+import { NewsItem } from "../../components/news";
 import TodayList from "../../components/todayList";
 import { ThemeContext } from "../../context/ThemeContext";
 import { NewsDataType } from "../../types/index";
@@ -60,22 +61,41 @@ const index = () => {
     getNews(category);
   };
 
+  const renderNewsItem = ({ item }: { item: NewsDataType }) => (
+    <Link href={`/news/${item.article_id}`} asChild>
+      <TouchableOpacity style={{ paddingHorizontal: 20 }}>
+        <NewsItem item={item} />
+      </TouchableOpacity>
+    </Link>
+  );
+
   return (
     <SafeScreen>
       <View style={styles.container}>
         <Header />
-        <ScrollView showsVerticalScrollIndicator={false}>
-          {isLoading ? (
-            <Loading size={"large"} />
-          ) : (
+        <FlatList
+          data={news}
+          keyExtractor={(item) => item.article_id}
+          showsVerticalScrollIndicator={false}
+          renderItem={renderNewsItem}
+          ListHeaderComponent={
             <>
-              <BreakingNews newsList={breakingNews} />
-              <TodayList newsList={breakingNews} />
+              {isLoading ? (
+                <Loading size={"large"} />
+              ) : (
+                <>
+                  <BreakingNews newsList={breakingNews} />
+                  <TodayList newsList={breakingNews} />
+                </>
+              )}
+              <View style={{ marginBottom: 20 }}>
+                <Categories onCategoryChanged={onCatChanged} />
+              </View>
             </>
-          )}
-          <Categories onCategoryChanged={onCatChanged} />
-          <News newsList={news} />
-        </ScrollView>
+          }
+          ListEmptyComponent={!isLoading ? <Text style={{ textAlign: 'center', marginTop: 20 }}>Aucune actualité trouvée</Text> : null}
+          contentContainerStyle={{ paddingBottom: 110 }}
+        />
       </View>
     </SafeScreen>
   );
